@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DocMind · 工业智能文档平台</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets.css?v=20260908-7">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">DM</span><span>DocMind</span></div>
+    <div class="workspace-label">工业智能文档平台</div>
+    <nav>
+      <button class="nav-item active" data-page="dashboard"><i>▦</i>工作台</button>
+      <button class="nav-item" data-page="vision"><i>◫</i>图像识别</button>
+      <button class="nav-item" data-page="chat"><i>◉</i>知识问答</button>
+      <button class="nav-item" data-page="library"><i>▤</i>知识库</button>
+      <button class="nav-item" data-page="tasks"><i>◷</i>任务记录</button>
+      <button class="nav-item" data-page="settings"><i>⚙</i>设置</button>
+    </nav>
+    <div class="sidebar-footer"><span class="signal"></span>系统运行正常<br><small>v2.4.0 · 华东节点</small></div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div id="workspace-display" class="crumb">05</div>
+      <div class="top-actions"><span id="model-status" class="model-status"><b></b><span>InternVL · 检测中</span></span><div class="global-search"><label class="search">⌕ <input id="global-search-input" placeholder="搜索文件、任务或批次" autocomplete="off"></label><div id="global-search-results" class="global-search-results" hidden></div></div></div>
+    </header>
+
+    <section id="dashboard" class="page active">
+      <div class="page-heading"><div><p class="eyebrow">OPERATIONS OVERVIEW</p><h1>工作台</h1><p>识别任务、数据资产与知识检索的实时运行状态。</p></div><button id="dashboard-new-task" class="primary">+ 新建识别任务</button></div>
+      <div class="industrial-banner" role="img" aria-label="深色工业设备与机械管线">
+        <div><span>VISION OPS / EAST-04</span><strong>多模态生产数据中枢</strong><small>IMAGE → STRUCTURE → KNOWLEDGE</small></div>
+        <div class="banner-stat"><b>99.97%</b><span>PIPELINE UPTIME</span></div>
+      </div>
+      <div class="metrics">
+        <article class="metric"><span>今日识别量</span><strong id="today-task-count">0</strong><em class="up" id="completed-task-count">0 项已完成</em></article>
+        <article class="metric"><span>知识问答</span><strong>0</strong><em>知识库待接入</em></article>
+        <article class="metric warning"><span>失败任务</span><strong id="failed-task-count">0</strong><em id="processing-task-count">0 项处理中</em></article>
+      </div>
+      <div class="grid two-three"><article class="panel wide"><div class="panel-title"><h2>任务流</h2><button id="view-all-tasks" class="text-button" type="button">查看全部 →</button></div><div id="dashboard-task-list" class="table task-list"><div class="task-empty">暂无识别任务</div></div></article><article class="panel intelligence-card"><div class="panel-title"><h2>知识问答动态</h2><span class="live">OFFLINE</span></div><div class="question">正式知识库尚未接入</div><div class="answer"><span>等待配置</span><p>收到合作方交付的知识库后，将在此显示真实问答和证据链。</p></div><div class="machine-caption"><span>KNOWLEDGE BASE</span><b>DISCONNECTED</b></div></article></div>
+    </section>
+
+    <section id="vision" class="page">
+      <div class="page-heading"><div><p class="eyebrow">VISION PIPELINE</p><h1>图像识别</h1><p>将原始图像转化为可检索、可追溯的结构化数据。</p></div><button id="new-batch-task" class="primary">+ 新建批任务</button></div>
+      <input id="batch-files" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+      <div class="grid upload-grid"><article id="upload-zone" class="panel upload" tabindex="0"><input id="vision-file" type="file" accept="image/jpeg,image/png,image/webp" hidden><div id="upload-preview" class="scan-corners"><span>◫</span></div><h2 id="upload-title">拖拽采购发票至识别区</h2><p id="upload-meta">支持 JPG、PNG、WEBP；单文件最大 50 MB</p><button id="choose-file" class="secondary" type="button">选择文件</button><div class="chips"><span>采购发票识别</span></div><div id="batch-queue" class="batch-queue" hidden></div></article><article class="panel config"><div class="texture-label">INGEST NODE / 04</div><h2>识别配置</h2><label>视觉模型<select disabled><option>InternVL3_5-2B-HF · 多模态识别</option></select></label><label>字段模板<select id="field-template" disabled><option>采购发票字段</option></select></label><div id="vision-pipeline" class="pipeline"><span class="active">01 上传</span><i></i><span>02 解析</span><i></i><span>03 校验</span></div><button id="start-extract" class="primary full" type="button" disabled>请先选择文件</button></article></div>
+      <article id="extract-result" class="panel extract-result" aria-live="polite" hidden>
+        <div class="panel-title"><div><p class="eyebrow">STRUCTURED OUTPUT</p><h2>识别结果</h2></div><span id="extract-status" class="result-status">等待任务</span></div>
+        <div id="extract-feedback" class="extract-feedback"></div>
+        <div id="extract-table" class="extract-table"></div>
+      </article>
+    </section>
+
+    <section id="chat" class="page">
+      <div class="page-heading"><div><p class="eyebrow">GROUNDED INTELLIGENCE</p><h1>知识问答</h1><p>所有回答仅基于已授权文档与已验证识别结果。</p></div></div>
+      <div class="chat-layout"><article class="panel conversation"><div class="panel-title"><h2>企业知识助手</h2><span class="verified disconnected">● 知识库未接入</span></div><div id="chat-messages" class="messages"><div class="message bot"><b>DM</b><p>正式知识库尚未接入。收到合作方交付后，再启用基于证据的企业知识问答。</p></div></div><div class="composer"><input id="chat-input" placeholder="等待正式知识库接入" autocomplete="off" disabled><button id="send-question" type="button" aria-label="发送问题" disabled>↑</button></div></article><aside id="evidence-panel" class="panel evidence"><h2>本轮证据链</h2><p id="evidence-count">暂无可用知识来源</p><div id="evidence-list" class="evidence-list"><div class="evidence-empty">知识库接入后显示引用片段</div></div></aside></div>
+    </section>
+
+    <section id="library" class="page"><div class="page-heading"><div><p class="eyebrow">RAG KNOWLEDGE ASSETS</p><h1>知识库</h1><p>等待接入合作方交付的正式知识库。</p></div><button class="primary" disabled>等待知识库交付</button></div><article class="panel knowledge-empty"><span>KB / DISCONNECTED</span><h2>尚未接入知识库</h2><p>当前没有启用任何文档、向量索引或外部检索服务。收到正式知识库后，将在这里完成连接和验证。</p></article></section>
+
+    <section id="tasks" class="page">
+      <div class="page-heading"><div><p class="eyebrow">PROCESS AUDIT TRAIL</p><h1>任务记录</h1><p>追踪采购发票识别任务的执行状态与人工干预。</p></div><button id="export-tasks" class="secondary" type="button">导出 CSV</button></div>
+      <article class="panel task-panel">
+        <div class="filters"><label>任务状态<select id="task-status-filter"><option value="">全部状态</option><option value="processing">处理中</option><option value="completed">已完成</option><option value="failed">失败</option></select></label><span id="task-total">0 个任务</span><button id="refresh-tasks" class="secondary compact" type="button">刷新</button></div>
+        <div id="task-records" class="records"><div class="record head"><span>任务名称</span><span>批次 / 类型</span><span>模型</span><span>状态</span><span>提交时间</span><span>操作</span></div><div class="task-empty">暂无真实任务</div></div>
+      </article>
+    </section>
+
+    <section id="settings" class="page"><div class="page-heading"><div><p class="eyebrow">SYSTEM CONTROL</p><h1>设置</h1><p>管理工作空间、模型服务与界面偏好。</p></div></div><div class="settings-layout"><aside class="panel settings-nav"><button class="settings-tab selected" type="button" data-settings-tab="workspace">工作空间</button><button class="settings-tab" type="button" data-settings-tab="service">模型服务</button><button class="settings-tab" type="button" data-settings-tab="preferences">界面偏好</button></aside><article class="panel settings-panel"><section class="settings-section active" data-settings-section="workspace"><h2>工作空间</h2><p>名称会同步显示在页面顶部。</p><label>工作空间名称<input id="workspace-name" value="05" maxlength="40"></label><label>默认字段模板<select disabled><option>采购发票字段</option></select></label></section><section class="settings-section" data-settings-section="service"><h2>模型服务</h2><p>配置 DocMind 前端访问的 MaaS 网关。</p><label>API 地址<input id="api-base-url" value="http://127.0.0.1:8000" inputmode="url"></label><label>识别模型<input value="InternVL3_5-2B-HF" disabled></label><div class="service-row"><span id="service-check-status" class="service-state">尚未检测</span><button id="test-api-connection" class="secondary" type="button">测试连接</button></div></section><section class="settings-section" data-settings-section="preferences"><h2>界面偏好</h2><p>设置仅保存在当前浏览器。</p><div class="toggle-row"><span>显示任务状态动画<small>识别与检索期间显示动态状态。</small></span><button class="toggle on" type="button" role="switch" aria-checked="true" data-preference="statusAnimation"></button></div><div class="toggle-row"><span>任务失败提示<small>接口出错时显示明确的失败原因。</small></span><button class="toggle on" type="button" role="switch" aria-checked="true" data-preference="failureMessages"></button></div></section><div class="settings-actions"><span id="settings-feedback" aria-live="polite"></span><button id="save-settings" class="primary" type="button">保存更改</button></div></article></div></section>
+  </main>
+  <dialog id="task-detail-dialog" class="task-dialog"><div class="task-dialog-head"><div><p class="eyebrow">TASK INSPECTOR</p><h2>任务详情</h2></div><button id="close-task-detail" type="button" aria-label="关闭">×</button></div><div id="task-detail-content" class="task-detail-content"></div></dialog>
+  <script src="app.js?v=20260908-7"></script>
+</body>
+</html>
